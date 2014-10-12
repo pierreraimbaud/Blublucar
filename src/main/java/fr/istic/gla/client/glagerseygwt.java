@@ -10,13 +10,17 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 
 import fr.istic.gla.shared.BookItf;
+import fr.istic.gla.shared.PersonneItf;
+import fr.istic.gla.shared.VoitureItf;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -26,8 +30,30 @@ public class glagerseygwt implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
+	
 	public void onModuleLoad() {
 
+		/*AbsolutePanel p  =new AbsolutePanel();
+		p.setWidth("600px");
+		p.setHeight("600px");
+
+		Label l = new Label();
+		l.setText("nom:");
+		p.add(l, 10, 10);
+		final TextBox t = new TextBox();
+		p.add(t, 100, 10);
+		Button b = new Button();
+		b.setText("ok");
+		p.add(b, 100, 30);
+		RootPanel.get().add(p);
+
+		b.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent arg0) {
+				Window.alert(t.getText());
+			}
+		});*/
+		
 		// Create a text
 		final TextBox area = new TextBox();
 		area.setValue("2");
@@ -43,7 +69,7 @@ public class glagerseygwt implements EntryPoint {
 
 			public void onClick(ClickEvent event) {
 				RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, GWT
-						.getHostPageBaseURL() + "rest/books/search/" + area.getText());
+						.getHostPageBaseURL() + "rest/voitures/search/" + area.getText());
 				rb.setCallback(new RequestCallback() {
 
 					public void onError(Request request, Throwable exception) {
@@ -53,11 +79,12 @@ public class glagerseygwt implements EntryPoint {
 					public void onResponseReceived(Request request,
 							Response response) {
 						if (200 == response.getStatusCode()) {
-							BookItf b = BookJsonConverter.getInstance()
+							/*BookItf b = BookJsonConverter.getInstance()
 									.deserializeFromJson(response.getText());
-							Window.alert("get the book from :" + b.getAuthor()
-									+ " isbn : " + b.getIsbn().toString());
-
+							Window.alert("get the author :" + b.getIsbn());*/
+							VoitureItf v = VoitureJsonConverter.getInstance()
+									.deserializeFromJson(response.getText());
+							Window.alert("get the voiture :" + v.getIdVoiture());
 						}
 					}
 				});

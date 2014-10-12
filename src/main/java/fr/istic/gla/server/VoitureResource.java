@@ -15,32 +15,29 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.istic.gla.shared.Book;
-import fr.istic.gla.shared.BookItf;
+import fr.istic.gla.shared.Voiture;
+import fr.istic.gla.shared.VoitureItf;
 
 /*
  * This class is an example of services class
  */
 
-@Path("/books")
-public class BookResource implements MyService {
+@Path("/voitures")
+public class VoitureResource implements VoitureService {
 
-	private List<Book> books = new ArrayList<Book>();
+	private List<Voiture> voitures = new ArrayList<Voiture>();
 
 	EntityManager manager;
 
-	public BookResource() {
+	public VoitureResource() {
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("dev");
 		manager = factory.createEntityManager();
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
 		for (int i = 0; i < 20; i++) {
-            //manager.persist(new Book( "Title " + i, "Author " + i, new Double(Math.random()*20).intValue()));
-			manager.persist(new Book());
+			manager.persist(new Voiture());
 		}
-		
-
 	}
 
 	/* (non-Javadoc)
@@ -48,33 +45,33 @@ public class BookResource implements MyService {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Collection<Book> list() {
-		return manager.createQuery("select e from Book as b").getResultList();
+	public Collection<Voiture> list() {
+		return manager.createQuery("select e from Voiture as v").getResultList();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.MyService#findById(java.lang.String)
 	 */
 	@GET
-	@Path("search/{id}")
+	@Path("search/{idVoiture}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public BookItf findById(@PathParam("id") String arg0) {
-		return manager.find(Book.class, Integer.parseInt(arg0));
+	public VoitureItf findById(@PathParam("idVoiture") String arg0) {
+		return manager.find(Voiture.class, Integer.parseInt(arg0));
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.MyService#deleteById(java.lang.String)
 	 */
 	@DELETE
-	@Path("delete/{id}")
+	@Path("delete/{idVoiture}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public BookItf deleteById(@PathParam("id") String arg0) {
+	public VoitureItf deleteById(@PathParam("idVoiture") String arg0) {
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
-		Book b = manager.find(Book.class, Integer.parseInt(arg0));
-		manager.remove(b);
+		Voiture v = manager.find(Voiture.class, Integer.parseInt(arg0));
+		manager.remove(v);
 		t.commit();
-		return b;
+		return v;
 	}
 
 	@GET

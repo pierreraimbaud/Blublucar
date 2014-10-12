@@ -1,5 +1,7 @@
 package fr.istic.gla.server;
 
+
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,31 +17,30 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.istic.gla.shared.Book;
-import fr.istic.gla.shared.BookItf;
+import fr.istic.gla.shared.Evenement;
+import fr.istic.gla.shared.EvenementItf;
 
 /*
  * This class is an example of services class
  */
 
-@Path("/books")
-public class BookResource implements MyService {
+@Path("/evenements")
+public class EvenementResource implements EvenementService {
 
-	private List<Book> books = new ArrayList<Book>();
+	private List<Evenement> evenements = new ArrayList<Evenement>();
 
 	EntityManager manager;
 
-	public BookResource() {
+	public EvenementResource() {
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("dev");
 		manager = factory.createEntityManager();
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
 		for (int i = 0; i < 20; i++) {
-            //manager.persist(new Book( "Title " + i, "Author " + i, new Double(Math.random()*20).intValue()));
-			manager.persist(new Book());
+			manager.persist(new Evenement());
 		}
-		
+
 
 	}
 
@@ -48,30 +49,30 @@ public class BookResource implements MyService {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Collection<Book> list() {
-		return manager.createQuery("select e from Book as b").getResultList();
+	public Collection<Evenement> list() {
+		return manager.createQuery("select e from Evenement").getResultList();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.MyService#findById(java.lang.String)
 	 */
 	@GET
-	@Path("search/{id}")
+	@Path("search/{idEvenement}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public BookItf findById(@PathParam("id") String arg0) {
-		return manager.find(Book.class, Integer.parseInt(arg0));
+	public EvenementItf findById(@PathParam("idEvenement") String arg0) {
+		return manager.find(Evenement.class, Integer.parseInt(arg0));
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.MyService#deleteById(java.lang.String)
 	 */
 	@DELETE
-	@Path("delete/{id}")
+	@Path("delete/{idEvenement}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public BookItf deleteById(@PathParam("id") String arg0) {
+	public EvenementItf deleteById(@PathParam("idEvenement") String arg0) {
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
-		Book b = manager.find(Book.class, Integer.parseInt(arg0));
+		Evenement b = manager.find(Evenement.class, Integer.parseInt(arg0));
 		manager.remove(b);
 		t.commit();
 		return b;
