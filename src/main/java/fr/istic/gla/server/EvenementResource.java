@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -75,7 +76,10 @@ public class EvenementResource implements EvenementService {
 		Personne p = manager.find(Personne.class, Integer.parseInt(arg0));
 		Evenement b = manager.find(Evenement.class, Integer.parseInt(arg1));
 		b.getLp().add(p);
-		b.setEtat_places(b.getEtat_places()+p.getNb_places_dispos()-1);
+		if(!p.isChauff()){
+			b.setEtat_places(b.getEtat_places()-1);
+		}
+		else {b.setEtat_places(b.getEtat_places()+p.getNb_places_dispos()-1);}
 		t.commit();
 		return b;
 	}
@@ -84,5 +88,17 @@ public class EvenementResource implements EvenementService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
 		return "Hello Jersey";
+	}
+
+	@POST
+	@Path("/add/")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public EvenementItf addEvenement(Evenement e) {
+		EntityTransaction t = manager.getTransaction();
+		t.begin();
+		manager.persist(e);
+		t.commit();
+		return e;
 	}
 }

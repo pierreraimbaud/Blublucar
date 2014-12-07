@@ -1,5 +1,6 @@
 package fr.istic.gla.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,10 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
-public class Evenement implements EvenementItf{
+public class Evenement implements EvenementItf, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2861342899100812585L;
 	@Id
 	@GeneratedValue
 	private Integer idEvenement;
@@ -33,11 +39,12 @@ public class Evenement implements EvenementItf{
 		etat_places =0;
 	}
 
-	public Evenement(Date d, String li, int h, ArrayList<Personne> l){
+	@JsonCreator
+	public Evenement(@JsonProperty("date") Date d, @JsonProperty("lieu") String li, @JsonProperty("heure") int h){
 		date = d;
 		lieu = li;
 		heure = h;
-		lp = l;
+		lp = new ArrayList<Personne>();;
 		etat_places = 0;
 	}
 

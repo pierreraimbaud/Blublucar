@@ -1,13 +1,20 @@
 package fr.istic.gla.shared;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 
 @Entity
-public class Voiture implements VoitureItf {
+public class Voiture implements VoitureItf, Serializable  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2673606268605752636L;
 	@Id
 	@GeneratedValue
 	private Integer idVoiture;

@@ -17,4 +17,8 @@ public interface PersonneItf {
 	public int getNb_places_dispos();
 	
 	public void setNb_places_dispos(int nb_places_dispos);
+	
+	public boolean isChauff();
+
+	public void setChauff(boolean chauff);
 }

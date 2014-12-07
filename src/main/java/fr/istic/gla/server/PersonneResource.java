@@ -62,31 +62,39 @@ public class PersonneResource implements PersonneService{
 	@Path("/add/")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces(MediaType.TEXT_PLAIN)
-	//@Produces({ MediaType.APPLICATION_JSON })
-	//public PersonneItf add(Personne p) {
 	public String add(Personne p) {
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
 		manager.persist(p);
-		//EntityManagerSingleton.getInstance().merge(p);
 		t.commit();
 		int id = p.getIdPersonne();
 		String ret = id+ "";
 		return ret;
 	}
 
-	/*@POST
-	@Path("/addVoiture/{idVoiture}/{idPersonne}")
+	@POST
+	@Path("noChauff/{idPersonne}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public PersonneItf addPersonneVoiture(@PathParam("idVoiture") String arg0, @PathParam("idPersonne") String arg1) {
+	public PersonneItf noChauff(@PathParam("idPersonne") String arg0) {
 		EntityTransaction t = manager.getTransaction();
 		t.begin();
-		Voiture v = manager.find(Voiture.class, Integer.parseInt(arg0));
-		Personne p = manager.find(Personne.class, Integer.parseInt(arg1));
-		p.setVoiture(v);
+		Personne p = manager.find(Personne.class, Integer.parseInt(arg0));
+		p.setChauff(false);
 		t.commit();
 		return p;
-	}*/
+	}
+
+	@POST
+	@Path("Chauff/{idPersonne}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public PersonneItf Chauff(@PathParam("idPersonne") String arg0) {
+		EntityTransaction t = manager.getTransaction();
+		t.begin();
+		Personne p = manager.find(Personne.class, Integer.parseInt(arg0));
+		p.setChauff(true);
+		t.commit();
+		return p;
+	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
