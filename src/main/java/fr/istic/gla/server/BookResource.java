@@ -1,13 +1,10 @@
 package fr.istic.gla.server;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,21 +22,12 @@ import fr.istic.gla.shared.BookItf;
 @Path("/books")
 public class BookResource implements MyService {
 
-	private List<Book> books = new ArrayList<Book>();
+	//private List<Book> books = new ArrayList<Book>();
 
 	EntityManager manager;
 
 	public BookResource() {
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("dev");
-		manager = factory.createEntityManager();
-		EntityTransaction t = manager.getTransaction();
-		t.begin();
-		for (int i = 0; i < 20; i++) {
-            //manager.persist(new Book( "Title " + i, "Author " + i, new Double(Math.random()*20).intValue()));
-			manager.persist(new Book());
-		}
-		
+		manager = EntityManagerSingleton.getInstance().getManager();	
 
 	}
 
@@ -49,7 +37,10 @@ public class BookResource implements MyService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Collection<Book> list() {
-		return manager.createQuery("select e from Book as b").getResultList();
+		@SuppressWarnings("unchecked")
+		List<Book> res =  manager.createQuery("select b from Book as b").getResultList();
+		System.err.println(res.size());
+		return res;
 	}
 
 	/* (non-Javadoc)
@@ -82,5 +73,4 @@ public class BookResource implements MyService {
 	public String sayPlainTextHello() {
 		return "Hello Jersey";
 	}
-
 }

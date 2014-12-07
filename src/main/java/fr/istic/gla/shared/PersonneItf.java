@@ -13,9 +13,8 @@ public interface PersonneItf {
 	public String getFirstname();
 
 	public void setFirstname(String firstname);
-
-	public boolean isVientAvecVoiture();
-
-	public void setVientAvecVoiture(boolean vientAvecVoiture);
-
+	
+	public int getNb_places_dispos();
+	
+	public void setNb_places_dispos(int nb_places_dispos);
 }

@@ -1,18 +1,10 @@
 package fr.istic.gla.server;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import fr.istic.gla.shared.Personne;
@@ -21,35 +13,24 @@ import fr.istic.gla.shared.PersonneItf;
 @Path("/personnes")
 public class PersonneResource implements PersonneService{
 
-	private List<Personne> personnes = new ArrayList<Personne>();
+	//private List<Personne> personnes = new ArrayList<Personne>();
 
 	EntityManager manager;
 
 	public PersonneResource() {
-		
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("dev");
-		manager = factory.createEntityManager();
-		EntityTransaction t = manager.getTransaction();
-		t.begin();
-		
-		for (int i = 0; i < 20; i++) {
-			/*Voiture v = new Voiture();
-			Personne p = new Personne("Michel"+i, "Renard"+i, v);
-			v.setNb_places_dispos(i);
-			v.setProprietaire(p);
-			manager.persist(v);*/
-			manager.persist(new Personne());
-		}
+
+		manager = EntityManagerSingleton.getInstance().getManager();	
+
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.PersonneService#list()
 	 */
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Collection<Personne> list() {
-		return manager.createQuery("select e from Personne as p").getResultList();
+		return manager.createQuery("select p from Personne as p").getResultList();
 	}
 
 	/* (non-Javadoc)
@@ -76,6 +57,36 @@ public class PersonneResource implements PersonneService{
 		t.commit();
 		return p;
 	}
+
+	@POST
+	@Path("/add/")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces(MediaType.TEXT_PLAIN)
+	//@Produces({ MediaType.APPLICATION_JSON })
+	//public PersonneItf add(Personne p) {
+	public String add(Personne p) {
+		EntityTransaction t = manager.getTransaction();
+		t.begin();
+		manager.persist(p);
+		//EntityManagerSingleton.getInstance().merge(p);
+		t.commit();
+		int id = p.getIdPersonne();
+		String ret = id+ "";
+		return ret;
+	}
+
+	/*@POST
+	@Path("/addVoiture/{idVoiture}/{idPersonne}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public PersonneItf addPersonneVoiture(@PathParam("idVoiture") String arg0, @PathParam("idPersonne") String arg1) {
+		EntityTransaction t = manager.getTransaction();
+		t.begin();
+		Voiture v = manager.find(Voiture.class, Integer.parseInt(arg0));
+		Personne p = manager.find(Personne.class, Integer.parseInt(arg1));
+		p.setVoiture(v);
+		t.commit();
+		return p;
+	}*/
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)

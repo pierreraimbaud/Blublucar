@@ -1,32 +1,42 @@
 package fr.istic.gla.shared;
 
-//import java.util.ArrayList;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
-public class Personne implements PersonneItf {
+public class Personne implements PersonneItf, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8925177444154877282L;
+
 
 	@Id
 	@GeneratedValue
 	private Integer idPersonne;
-
 	private String name;
 	private String firstname;
-	private boolean vientAvecVoiture;
-	@OneToOne(mappedBy="proprietaire")
-	private Voiture voiture;
+	private int nb_places_dispos;
+	/*@OneToOne
+	private Voiture voiture;*/
 
+	@JsonCreator
 	public Personne() {
+		this.name = "Michel";
+		this.firstname = "Martin";
+		this.nb_places_dispos = 0;
 	}
 
-	public Personne(String name, String firstname, Voiture voiture) {
+	@JsonCreator 
+	public Personne(@JsonProperty("name") String name, @JsonProperty("firstname") String firstname, @JsonProperty("nb_places_dispos") int nb_places_dispos){
 		this.name = name;
 		this.firstname = firstname;
-		this.vientAvecVoiture = false;
-		this.voiture = voiture;
+		this.nb_places_dispos = nb_places_dispos;
 	}
 
 	public Integer getIdPersonne() {
@@ -48,20 +58,12 @@ public class Personne implements PersonneItf {
 		this.firstname = firstname;
 	}
 
-	public boolean isVientAvecVoiture() {
-		return vientAvecVoiture;
+	public int getNb_places_dispos() {
+		return nb_places_dispos;
 	}
 
-	public void setVientAvecVoiture(boolean vientAvecVoiture) {
-		this.vientAvecVoiture = vientAvecVoiture;
-	}
-
-	public Voiture getVoitures() {
-		return voiture;
-	}
-
-	public void setVoitures(Voiture voiture) {
-		this.voiture = voiture;
+	public void setNb_places_dispos(int nb_places_dispos) {
+		this.nb_places_dispos = nb_places_dispos;
 	}
 
 	/*public void participe (Evenement e, boolean chauffeur, int num_voiture){

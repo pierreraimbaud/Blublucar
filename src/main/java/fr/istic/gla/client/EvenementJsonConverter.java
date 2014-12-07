@@ -5,8 +5,9 @@ import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
-import fr.istic.gla.shared.Evenement;
+import fr.istic.gla.shared.EvenementFactory;
 import fr.istic.gla.shared.EvenementItf;
+
 
 public class EvenementJsonConverter {
 
@@ -17,7 +18,7 @@ public class EvenementJsonConverter {
 	
 	
 	  // Instantiate the factory
-	  fr.istic.gla.shared.EvenementFactory factory = GWT.create(fr.istic.gla.shared.EvenementFactory.class);
+	  EvenementFactory factory = GWT.create(EvenementFactory.class);
 	  // In non-GWT code, use AutoBeanFactorySource.create(MyFactory.class);
 
 	  public EvenementItf makeEvenement() {
@@ -28,7 +29,7 @@ public class EvenementJsonConverter {
 	    return evenement.as();
 	  }
 
-	  String serializeToJson(Evenement evenement) {
+	  String serializeToJson(EvenementItf evenement) {
 	    // Retrieve the AutoBean controller
 	    AutoBean<EvenementItf> bean = AutoBeanUtils.getAutoBean(evenement);
 

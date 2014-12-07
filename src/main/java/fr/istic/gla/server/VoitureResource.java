@@ -1,13 +1,9 @@
 package fr.istic.gla.server;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,28 +21,22 @@ import fr.istic.gla.shared.VoitureItf;
 @Path("/voitures")
 public class VoitureResource implements VoitureService {
 
-	private List<Voiture> voitures = new ArrayList<Voiture>();
+	//private List<Voiture> voitures = new ArrayList<Voiture>();
 
 	EntityManager manager;
 
 	public VoitureResource() {
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("dev");
-		manager = factory.createEntityManager();
-		EntityTransaction t = manager.getTransaction();
-		t.begin();
-		for (int i = 0; i < 20; i++) {
-			manager.persist(new Voiture());
-		}
+		manager = EntityManagerSingleton.getInstance().getManager();	
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.istic.gla.server.MyService#list()
 	 */
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Collection<Voiture> list() {
-		return manager.createQuery("select e from Voiture as v").getResultList();
+		return manager.createQuery("select v from Voiture as v").getResultList();
 	}
 
 	/* (non-Javadoc)
@@ -79,5 +69,4 @@ public class VoitureResource implements VoitureService {
 	public String sayPlainTextHello() {
 		return "Hello Jersey";
 	}
-
 }
