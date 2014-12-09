@@ -1,0 +1,13 @@
+ [
+{ 
+"name":"Dupont", 
+"firstname":"Pierre",
+"nb_places_dispos":"2"
+}, 
+{ 
+"name":"Delpech", 
+"firstname":"Michel",
+"nb_places_dispos":"0"
+}
+
+]

@@ -2,7 +2,7 @@ package fr.istic.gla.client;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 import fr.istic.gla.shared.EvenementItf;
+import fr.istic.gla.shared.EvenementListItf;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -32,7 +33,9 @@ public class glagerseygwt implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	static AbsolutePanel header  =new AbsolutePanel();
-	static AbsolutePanel p  =new AbsolutePanel();
+	static AbsolutePanel p0  =new AbsolutePanel();
+	static AbsolutePanel p1  =new AbsolutePanel();
+	static AbsolutePanel p2a  =new AbsolutePanel();
 	static AbsolutePanel p2  =new AbsolutePanel();
 	static AbsolutePanel p3  =new AbsolutePanel();
 
@@ -46,15 +49,26 @@ public class glagerseygwt implements EntryPoint {
 		header.getElement().getStyle().setBackgroundColor("#DFA009");
 		RootPanel.get().add(header);
 
-		p.getElement().getStyle().setBackgroundColor("#FFFF00");
-		p.setWidth("400px");
-		p.setHeight("600px");
-		RootPanel.get().add(p,0,30);
+		p0.getElement().getStyle().setBackgroundColor("#FFFF00");
+		p0.setWidth("400px");
+		p0.setHeight("300px");
+		RootPanel.get().add(p0,0,30);
+
+		p1.getElement().getStyle().setBackgroundColor("#0140FF");
+		p1.setWidth("400px");
+		p1.setHeight("300px");
+		RootPanel.get().add(p1,0,330);
+
+
+		p2a.getElement().getStyle().setBackgroundColor("#DAB973");
+		p2a.setWidth("400px");
+		p2a.setHeight("100px");
+		RootPanel.get().add(p2a, 420,30);
 
 		p2.getElement().getStyle().setBackgroundColor("#FF0000");
 		p2.setWidth("400px");
 		p2.setHeight("600px");
-		RootPanel.get().add(p2, 420,30);
+		RootPanel.get().add(p2, 420,130);
 
 		p3.getElement().getStyle().setBackgroundColor("#0D8412");
 		p3.setWidth("400px");
@@ -65,7 +79,11 @@ public class glagerseygwt implements EntryPoint {
 		l.setText("Blablucar");
 		header.add(l,0,0);
 
-		int pre = 50;
+		Label inscription = new Label();
+		inscription.setText("Nouveau sur le site ? Inscrivez-vous ici !");
+		p0.add(inscription,0,30);
+
+		int pre = 70;
 
 		Label prenom = new Label();
 		prenom.setText("Prenom");
@@ -87,8 +105,8 @@ public class glagerseygwt implements EntryPoint {
 		nbPlaVal.setVisible(false);
 		nbpl.setVisible(false);
 
-		p.add(nbpl,10,pre+125);
-		p.add(nbPlaVal,10,pre+150);
+		p0.add(nbpl,10,pre+125);
+		p0.add(nbPlaVal,10,pre+150);
 
 		voitVal.addClickHandler(new ClickHandler(){
 
@@ -106,18 +124,18 @@ public class glagerseygwt implements EntryPoint {
 
 		});
 
-		p.add(prenom,10,pre);
-		p.add(prenomVal,10,pre+25);
+		p0.add(prenom,10,pre);
+		p0.add(prenomVal,10,pre+25);
 
-		p.add(nom,10,pre+50);
-		p.add(nomVal,10,pre+75);
+		p0.add(nom,10,pre+50);
+		p0.add(nomVal,10,pre+75);
 
-		p.add(voit,10,pre+100);
-		p.add(voitVal,150,pre+100);
+		p0.add(voit,10,pre+100);
+		p0.add(voitVal,150,pre+100);
 
 		Button aj = new Button();
 		aj.setText("Valider");
-		p.add(aj,10,pre+200);
+		p0.add(aj,10,pre+200);
 
 		aj.addClickHandler(new ClickHandler() {
 
@@ -161,7 +179,11 @@ public class glagerseygwt implements EntryPoint {
 			}
 		});		
 
-		int eve = 350;
+		Label ajoutE = new Label();
+		ajoutE.setText("Vous voulez créer un nouvel évènement ? C'est ici que ça se passe !");
+		p1.add(ajoutE,0,20);
+
+		int eve = 50;
 
 		Label date = new Label();
 		date.setText("Date");
@@ -172,23 +194,22 @@ public class glagerseygwt implements EntryPoint {
 		Label heure = new Label();
 		heure.setText("Heure");
 
-
 		final DateBox dateVal = new DateBox();
 		final TextBox lieuVal = new TextBox();
 		final TextBox heureVal = new TextBox();
 
-		p.add(date,10,eve);
-		p.add(dateVal,10,eve+25);
+		p1.add(date,10,eve);
+		p1.add(dateVal,10,eve+25);
 
-		p.add(lieu,10,eve+50);
-		p.add(lieuVal,10,eve+75);
+		p1.add(lieu,10,eve+50);
+		p1.add(lieuVal,10,eve+75);
 
-		p.add(heure,10,eve+100);
-		p.add(heureVal,10,eve+125);
+		p1.add(heure,10,eve+100);
+		p1.add(heureVal,10,eve+125);
 
 		Button valider = new Button();
 		valider.setText("Valider l'évènement");
-		p.add(valider,10,eve+175);
+		p1.add(valider,10,eve+175);
 
 		valider.addClickHandler(new ClickHandler() {
 
@@ -197,7 +218,7 @@ public class glagerseygwt implements EntryPoint {
 				Date dat = dateVal.getValue(); 
 				int annee = dat.getYear()+1900; //1900 date de depart
 				int mois = dat.getMonth()+1; //0 est janvier
-				String da = annee+"-"+mois+"-"+dat.getDay();
+				String da = annee+"-"+mois+"-"+dat.getDate();
 				String lie = lieuVal.getValue();
 				String heu = heureVal.getValue();
 				//EvenementItf ee = new Evenement(dat,lie,Integer.parseInt(heu));
@@ -232,194 +253,215 @@ public class glagerseygwt implements EntryPoint {
 			}
 		});
 
-		for (int i =3; i<8; i++){
-			RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, GWT
-					.getHostPageBaseURL() + "rest/evenements/search/" + i);
-			rb.setCallback(new RequestCallback() {
+		Label prev = new Label();
+		prev.setText("N'oubliez que vous pouvez toujours vous inscrire"
+				+ ", même s'il manque actuellement de places. "
+				+ "Quelqu'un va peut-être s'inscrire après vous !");
 
-				public void onError(Request request, Throwable exception) {
-					Window.alert(exception.getMessage());
-				}
-
-				public void onResponseReceived(Request request,
-						Response response) {
-					if (200 == response.getStatusCode()) {
-
-						final EvenementItf v = EvenementJsonConverter.getInstance()
-								.deserializeFromJson(response.getText());
+		p2a.add(prev,10,30);
 
 
-						Label l = new Label();
-						l.setText("Evenement :" + v.getLieu());
-						p2.add(l,10,80+decal);
+		Button listE = new Button();
+		listE.setText("Voir la liste des évènements actuels :");
+		p2a.add(listE,10,5);
+
+		listE.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RequestBuilder test = new RequestBuilder(RequestBuilder.GET, GWT
+						.getHostPageBaseURL() + "rest/evenements/list/");
+				test.setCallback(new RequestCallback() {
+
+					public void onError(Request request, Throwable exception) {
+						Window.alert(exception.getMessage());
+					}
+
+					public void onResponseReceived(Request request,
+							Response response) {
+						if (200 == response.getStatusCode()) {
+							EvenementListItf lv = EvenementListJsonConverter.getInstance()
+									.deserializeFromJson(response.getText());
+
+							List<EvenementItf> lvv = lv.getEvenements();
+
+							for (int i = 1; i<lvv.size(); i++){
+								final EvenementItf v = lvv.get(i);
+
+								Label l = new Label();
+								l.setText("Evenement :" + v.getLieu());
+								p2.add(l,10,80+decal);
 
 
-						Button b = new Button();
-						b.setText("ok");
-						p2.add(b, 150,77+decal);
+								Button b = new Button();
+								b.setText("Voir");
+								p2.add(b,140,77+decal);
 
-						Label nb_pla = new Label();
-						int nbVal = v.getEtat_places();
-						if (nbVal<0){
-							nb_pla.setText("Actuellement, il manque : "+nbVal+ " places");
-						}
-						else{
-							nb_pla.setText("Actuellement, il reste : "+nbVal+ " places");
+								Label nb_pla = new Label();
+								int nbVal = v.getEtat_places();
+								if (nbVal<0){
+									nb_pla.setText("Actuellement, il manque : "+nbVal+ " places");
+								}
+								else{
+									nb_pla.setText("Actuellement, il reste : "+nbVal+ " places");
 
-						}
-						p2.add(nb_pla,185,80+decal);
+								}
+								p2.add(nb_pla,185,80+decal);
 
-						decal += 50;
+								decal += 50;
 
-						b.addClickHandler(new ClickHandler() {
+								b.addClickHandler(new ClickHandler() {
 
-							@SuppressWarnings("deprecation")
-							public void onClick(ClickEvent arg0) {
-								p3.clear();
+									@SuppressWarnings("deprecation")
+									public void onClick(ClickEvent arg0) {
+										p3.clear();
 
-								final String idEvenement = v.getIdEvenement()+"";
+										final String idEvenement = v.getIdEvenement()+"";
 
-								Label date = new Label();
-								Label lieu = new Label();
-								Label heure = new Label();
-								int d = v.getDate().getDay();
-								int m = v.getDate().getMonth()+1 ;
-								int y = v.getDate().getYear()+1900;
-								date.setText("Date : "+d+"/"+m+"/"+y);
+										Label date = new Label();
+										Label lieu = new Label();
+										Label heure = new Label();
+										int d = v.getDate().getDate();
+										int m = v.getDate().getMonth()+1 ;
+										int y = v.getDate().getYear()+1900;
+										date.setText("Date : "+d+"/"+m+"/"+y);
 
 
-								lieu.setText("Lieu : "+ v.getLieu());
-								heure.setText("Heure : "+ v.getHeure()+ " h");
+										lieu.setText("Lieu : "+ v.getLieu());
+										heure.setText("Heure : "+ v.getHeure()+ " h");
 
-								int start = 0;
+										int start = 0;
 
-								p3.add(lieu,0,start+10);
-								p3.add(date,0,start+30);
-								p3.add(heure,0,start+50);
-
-								Button aj = new Button();
-								aj.setText("Je m'ajoute");
-								p3.add(aj,0,start+100);
-								aj.addClickHandler(new ClickHandler() {
-
-									public void onClick(ClickEvent event) {
-										Label id = new Label();
-										id.setText("Veuillez entrer votre ID (reçu lors de votre inscription)");
-
-										final TextBox idVal = new TextBox();
-
-										int onCli = 150;
-										p3.add(id,0,onCli);
-										p3.add(idVal,0,onCli+20);
-
-										Label attention = new Label();
-										attention.setText("Ne cliquez que si vous avez renseigné un véhicule pour ce site");
-										p3.add(attention,0,onCli+75);
-
-										Button chauff = new Button();
-										chauff.setText("Chauffeur cette fois !");
-										p3.add(chauff,0,onCli+100);
-										
-										chauff.addClickHandler(new ClickHandler() {
-
-											public void onClick(ClickEvent event) {
-												String idPersonnee = idVal.getText();
-												RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
-														.getHostPageBaseURL() + "rest/personnes/Chauff/" + idPersonnee);
-												rb.setCallback(new RequestCallback() {
-
-													public void onError(Request request, Throwable exception) {
-														Window.alert(exception.getMessage());
-													}
-
-													public void onResponseReceived(Request request,
-															Response response) {
-														if (200 == response.getStatusCode()) {
-															Window.alert("Vous allez bien utiliser votre véhicule cette fois-ci");
-														}
-													}
-												});
-												try {
-													rb.send();
-												} catch (RequestException e) {
-													e.printStackTrace();
-												}
-											}
-										});
-										
-										Button pasChauff = new Button();
-										pasChauff.setText("Pas chauffeur cette fois !");
-										p3.add(pasChauff,200,onCli+100);
-										
-										pasChauff.addClickHandler(new ClickHandler() {
-
-											public void onClick(ClickEvent event) {
-												String idPersonnee = idVal.getText();
-												RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
-														.getHostPageBaseURL() + "rest/personnes/noChauff/" + idPersonnee);
-												rb.setCallback(new RequestCallback() {
-
-													public void onError(Request request, Throwable exception) {
-														Window.alert(exception.getMessage());
-													}
-
-													public void onResponseReceived(Request request,
-															Response response) {
-														if (200 == response.getStatusCode()) {
-															Window.alert("Vous ne serez pas chauffeur cette fois-ci");
-														}
-													}
-												});
-												try {
-													rb.send();
-												} catch (RequestException e) {
-													e.printStackTrace();
-												}
-											}
-										});
+										p3.add(lieu,0,start+10);
+										p3.add(date,0,start+30);
+										p3.add(heure,0,start+50);
 
 										Button aj = new Button();
-										aj.setText("Valider");
-										p3.add(aj,0,onCli+160);
-
+										aj.setText("Je m'ajoute");
+										p3.add(aj,0,start+100);
 										aj.addClickHandler(new ClickHandler() {
 
 											public void onClick(ClickEvent event) {
-												
-												String idPersonne = idVal.getText();
+												Label id = new Label();
+												id.setText("Veuillez entrer votre ID (reçu lors de votre inscription)");
 
-												RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
-														GWT.getHostPageBaseURL() + "rest/evenements/addPersonneToEvenement/"+idPersonne+"/"+idEvenement);
+												final TextBox idVal = new TextBox();
 
-												builder.setCallback(new RequestCallback() {
-													public void onResponseReceived(Request request, Response response) {  
-														if (200 == response.getStatusCode()) { 
-															p3.clear();
-															Window.alert("Vous avez été ajouté à cet évènement. Merci!");
-														}  
-													}  
-													public void onError(Request request, Throwable exception) {  
-													}  
-												}); 
-												try {
-													builder.send();
-												} catch (RequestException e) {
-													e.printStackTrace();
-												}
+												int onCli = 150;
+												p3.add(id,0,onCli);
+												p3.add(idVal,0,onCli+20);
+
+												Label attention = new Label();
+												attention.setText("Ne cliquez que si vous avez renseigné un véhicule pour ce site");
+												p3.add(attention,0,onCli+75);
+
+												Button chauff = new Button();
+												chauff.setText("Chauffeur cette fois !");
+												p3.add(chauff,0,onCli+100);
+
+												chauff.addClickHandler(new ClickHandler() {
+
+													public void onClick(ClickEvent event) {
+														String idPersonnee = idVal.getText();
+														RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
+																.getHostPageBaseURL() + "rest/personnes/Chauff/" + idPersonnee);
+														rb.setCallback(new RequestCallback() {
+
+															public void onError(Request request, Throwable exception) {
+																Window.alert(exception.getMessage());
+															}
+
+															public void onResponseReceived(Request request,
+																	Response response) {
+																if (200 == response.getStatusCode()) {
+																	Window.alert("Vous allez bien utiliser votre véhicule cette fois-ci");
+																}
+															}
+														});
+														try {
+															rb.send();
+														} catch (RequestException e) {
+															e.printStackTrace();
+														}
+													}
+												});
+
+												Button pasChauff = new Button();
+												pasChauff.setText("Pas chauffeur cette fois !");
+												p3.add(pasChauff,200,onCli+100);
+
+												pasChauff.addClickHandler(new ClickHandler() {
+
+													public void onClick(ClickEvent event) {
+														String idPersonnee = idVal.getText();
+														RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
+																.getHostPageBaseURL() + "rest/personnes/noChauff/" + idPersonnee);
+														rb.setCallback(new RequestCallback() {
+
+															public void onError(Request request, Throwable exception) {
+																Window.alert(exception.getMessage());
+															}
+
+															public void onResponseReceived(Request request,
+																	Response response) {
+																if (200 == response.getStatusCode()) {
+																	Window.alert("Vous ne serez pas chauffeur cette fois-ci");
+																}
+															}
+														});
+														try {
+															rb.send();
+														} catch (RequestException e) {
+															e.printStackTrace();
+														}
+													}
+												});
+
+												Button aj = new Button();
+												aj.setText("Valider");
+												p3.add(aj,0,onCli+160);
+
+												aj.addClickHandler(new ClickHandler() {
+
+													public void onClick(ClickEvent event) {
+
+														String idPersonne = idVal.getText();
+
+														RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
+																GWT.getHostPageBaseURL() + "rest/evenements/addPersonneToEvenement/"+idPersonne+"/"+idEvenement);
+
+														builder.setCallback(new RequestCallback() {
+															public void onResponseReceived(Request request, Response response) {  
+																if (200 == response.getStatusCode()) { 
+																	p3.clear();
+																	Window.alert("Vous avez été ajouté à cet évènement. Merci!");
+																	p2.clear();
+																}  
+															}  
+															public void onError(Request request, Throwable exception) {  
+															}  
+														}); 
+														try {
+															builder.send();
+														} catch (RequestException e) {
+															e.printStackTrace();
+														}
+													}
+												});
 											}
 										});
 									}
 								});
 							}
-						});
+							decal = 0;
+						}
 					}
+				});
+
+				try {
+					test.send();
+				} catch (RequestException e) {
+					e.printStackTrace();
 				}
-			});
-			try {
-				rb.send();
-			} catch (RequestException e) {
-				e.printStackTrace();
 			}
-		}
+		});
 	}
 }

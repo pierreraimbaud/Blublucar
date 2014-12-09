@@ -37,6 +37,7 @@ public class EvenementResource implements EvenementService {
 	 */
 	@SuppressWarnings("unchecked")
 	@GET
+	@Path("list")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Collection<Evenement> list() {
 		return manager.createQuery("select e from Evenement as e").getResultList();
