@@ -3,97 +3,193 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
 <script src="bower_components/angular/angular.min.js"></script>
-<script>
-	function EventsCtrlAjax($scope, $http) {
 
-		$http({
-			method : 'GET',
-			url : 'events.json'
-		}).success(function(data) {
-			$scope.events = data;
-		});
-	}
-	
-	function PersonnesCtrlAjax($scope, $http) {
+<script type="text/javascript">
+	function MyCtrl($scope, $http) {
+		//$scope.idPersonne;
+		//$scope.idEvenement;
+		//$scope.date = 'Entrez la date';
+		//$scope.lieu = 'Entrez la ville';
+		//$scope.heure = 'Entre l\'heure';
+		//$scope.name = 'Entrez la name';
+		//$scope.firstname = 'Entrez la name';
+		//$scope.nb_places_dispos = 'Entre la nb_places_dispos';
 
-		$http({
-			method : 'GET',
-			url : 'personnes.json'
-		}).success(function(data) {
-			$scope.personnes = data;
-		});
-	}
-	
-	function ListCtrlAjax($scope, $http) {
+		$scope.cacher = function() {
+			document.getElementById('eve').style.display = 'none';
+		};
+		$scope.afficher = function() {
+			document.getElementById('eve').style.display = '';
+		};
 
-		$http({
-			method : 'GET',
-			url : 'evenements/list'
-		}).success(function(data) {
-			$scope.personnes = data;
-		});
+		$scope.addPersonne = function() {
+			var response = $http.post('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				$http({
+					method : 'POST',
+					url : '/rest/personnes/add',
+					data : {
+						name : $scope.name,
+						firstname : $scope.firstname,
+						nb_places_dispos : $scope.nb_places_dispos
+					}
+				}).success(
+						function(data) {
+							$scope.ee = data;
+							var id = data;
+							alert("Vous avez bien été inscrit. Votre id est le"
+									+ id + " (à retenir) ! Merci");
+						});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
+
+		$scope.addEvenement = function() {
+			var response = $http.post('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				$http({
+					method : 'POST',
+					url : '/rest/evenements/add',
+					data : {
+						date : $scope.date,
+						lieu : $scope.ville,
+						heure : $scope.heure
+					}
+				}).success(function(data) {
+					$scope.e = data;
+					$scope.cacher();
+					alert("L'évènement a bien été ajouté !");
+				});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
+
+		$scope.getAllEvenement = function() {
+			var response = $http.get('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				$http({
+					method : 'GET',
+					url : '/rest/evenements/list',
+				}).success(function(data) {
+					$scope.e = data;
+					$scope.afficher();
+				});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
+
+		$scope.addPersonneToEvenement = function() {
+			var response = $http.post('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				var idp = $scope.idPersonne;
+				var ide = $scope.idEvenement;
+				$http(
+						{
+							method : 'POST',
+							url : '/rest/evenements/addPersonneToEvenement/'
+									+ idp + '/' + ide,
+						}).success(function(data) {
+					$scope.ee = data;
+					$scope.cacher();
+					alert("Vous avez bien été ajouté à l'évènement. Merci !");
+				});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
+
+		$scope.chauff = function() {
+			var response = $http.post('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				var idp = $scope.idPersonne;
+				$http({
+					method : 'POST',
+					url : '/rest/personnes/Chauff/' + idp,
+				}).success(function(data) {
+					$scope.ee = data;
+					alert("Vous conduirez cette fois !");
+				});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
+
+		$scope.nochauff = function() {
+			var response = $http.post('http://localhost:8080/');
+			response.success(function(data, status, headers, config) {
+				var idp = $scope.idPersonne;
+				$http({
+					method : 'POST',
+					url : '/rest/personnes/noChauff/' + idp,
+				}).success(function(data) {
+					$scope.ee = data;
+					alert("Vous ne conduirez pas cette fois !");
+				});
+			});
+			response.error(function(data, status, headers, config) {
+				alert("Erreur avec les données");
+			});
+		};
 	}
 </script>
-<!--  
-<style>
-body {
-	font-family: arial;
-	font-size: 12px;
-	padding: 10px;
-}
 
-.postBody {
-	width: 550px;
-	border-bottom: dashed 2px #dedede
-}
-
-.postBody a {
-	color: #333333;
-	text-decoration: none
-}
-
-.postBody a:hover {
-	color: #006699;
-	background-color: #dedede
-}
-
-.time {
-	margin: 10px 0px 10px 0px;
-	color: #006699;
-}
-</style>
--->
 </head>
-
-<body>
+<body onload="cacher()">
 	<h1>Blablucar : site de covoiturage de Rennes 1 ISTIC</h1>
-	<div id="ng-app" ng-app ng-controller="EventsCtrlAjax">
-		<div ng-repeat="evenement in events" class='postBody'>
-			<h2>Evènement</h2>
-			<!--  <h2><a href='{{post.url}}'>{{post.title}}</a></h2> -->
-			<!--<div class='time'>{{post.time}} - {{post.author}} </div>-->
-			<p>{{evenement.date}}</p>
-			<p>{{evenement.lieu}}</p>
-			<p>{{evenement.heure}}</p>
-			<p>{{evenement.lp}}</p>
-			<!-- <img ng-src="{{post.banner}}" style='width:550px'/> -->
+
+	<div ng-controller="MyCtrl">
+		<button ng-click="addPersonne()">Je m'inscris</button>
+		<input type="text" name="input" ng-model="name"> </input> <input
+			type="text" name="input" ng-model="firstname"> </input> <input
+			type="text" name="input" ng-model="nb_places_dispos"> </input>
+	</div>
+
+
+
+	<div ng-controller="MyCtrl">
+		<button id="test" style="display: yes;" ng-click="addEvenement()">Ajouter
+			un évènement</button>
+		<input type="date" name="input" ng-model="date"> </input> <input
+			type="text" name="input" ng-model="ville"> </input> <input
+			type="text" name="input" ng-model="heure"> </input>
+	</div>
+
+
+
+	<div id="table_events" ng-app ng-controller="MyCtrl"
+		style="display: yes;">
+		<button ng-click="getAllEvenement()">Voir la liste des
+			évènements</button>
+		<button ng-controller="MyCtrl" ng-click="cacher()">Cacher</button>
+
+		<div id="eve">
+			<div ng-repeat="eve in e" class='postBody'>
+				<h2>Evènement n° {{eve.idEvenement}}</h2>
+				<p>{{eve.date | date:'MMM d, y'}}</p>
+				<p>Vers {{eve.lieu}}</p>
+				<p>{{eve.heure}} h</p>
+				<p>Etat actuel : {{eve.etat_places}}</p>
+			</div>
 		</div>
 	</div>
 
-	<div id="ng-app" ng-app ng-controller="PersonnesCtrlAjax">
-		<div ng-repeat="personne in personnes" class='postBody'>
-			<h2>Personne</h2>
-			<p>{{personne.firstname}}</p>
-			<p>{{personne.name}}</p>
-			<p>Je dispose de {{personne.nb_places_dispos}} place(s)</p>
-		</div>
+
+	<div ng-controller="MyCtrl">
+		<button ng-click="addPersonneToEvenement()">Je m'ajoute à
+			l'évènement</button>
+		<input type="number" name="input" ng-model="idPersonne"> </input> <input
+			type="number" name="input" ng-model="idEvenement"> </input>
+		<button ng-click="chauff()">Envie de conduire !</button>
+		<button ng-click="nochauff()">Non, pas cette fois</button>
 	</div>
-	
-	<div id="ng-app" ng-app ng-controller="ListCtrlAjax">
-		<div ng-repeat="event in evenements/list" class='postBody'>
-			<h2>event</h2>
-			<p>{{event.heure}}</p>
-		</div>
-	</div>
+
 </body>
 </html>
