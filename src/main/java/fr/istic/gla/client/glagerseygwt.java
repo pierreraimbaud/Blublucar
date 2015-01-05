@@ -40,6 +40,7 @@ public class glagerseygwt implements EntryPoint {
 	static AbsolutePanel p3  =new AbsolutePanel();
 
 	static ArrayList<EvenementItf> le = new ArrayList<EvenementItf>();
+
 	static int decal = 0;
 
 	public void onModuleLoad() {
@@ -58,7 +59,6 @@ public class glagerseygwt implements EntryPoint {
 		p1.setWidth("400px");
 		p1.setHeight("300px");
 		RootPanel.get().add(p1,0,330);
-
 
 		p2a.getElement().getStyle().setBackgroundColor("#DAB973");
 		p2a.setWidth("400px");
@@ -109,19 +109,16 @@ public class glagerseygwt implements EntryPoint {
 		p0.add(nbPlaVal,10,pre+150);
 
 		voitVal.addClickHandler(new ClickHandler(){
-
 			public void onClick(ClickEvent event) {
 				if (voitVal.getValue() == true){
 					nbpl.setVisible(true);
 					nbPlaVal.setVisible(true);
-
 				}
 				else{
 					nbPlaVal.setVisible(false);
 					nbpl.setVisible(false);
 				}
 			}
-
 		});
 
 		p0.add(prenom,10,pre);
@@ -136,36 +133,29 @@ public class glagerseygwt implements EntryPoint {
 		Button aj = new Button();
 		aj.setText("Valider");
 		p0.add(aj,10,pre+200);
-
 		aj.addClickHandler(new ClickHandler() {
-
 			public void onClick(ClickEvent event) {
 				String fir = prenomVal.getText(); 
 				String nam =  nomVal.getText();
 				int nb = Integer.parseInt(nbPlaVal.getText());
-
 				prenomVal.setText("");
 				nomVal.setText("");
 				voitVal.setValue(false);
 				nbPlaVal.setValue("0");
 				nbPlaVal.setVisible(false);
-
 				//PersonneItf p = 
 				//new Personne(prenomVal.getText(), nomVal.getText(),Integer.parseInt(nbPlaVal.getText()));
-
 				String serializedPersonne = 
 						"{\"name\": \""+nam+"\",\"firstname\": \""+fir+"\",\"nb_places_dispos\": \""+nb+"\"}";
 
 				RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
 						GWT.getHostPageBaseURL() + "rest/personnes/add");
-
 				builder.setHeader("Content-Type", "application/json");
 				builder.setRequestData(serializedPersonne);
 				builder.setCallback(new RequestCallback() {
 					public void onResponseReceived(Request request, Response response) {  
 						if (200 == response.getStatusCode()) { 
 							Window.alert("Vous avez bien réussi à vous ajouter. Votre id (à retenir) est le "+response.getText());
-
 						}  
 					}  
 					public void onError(Request request, Throwable exception) {  
@@ -182,7 +172,6 @@ public class glagerseygwt implements EntryPoint {
 		Label ajoutE = new Label();
 		ajoutE.setText("Vous voulez créer un nouvel évènement ? C'est ici que ça se passe !");
 		p1.add(ajoutE,0,20);
-
 		int eve = 50;
 
 		Label date = new Label();
@@ -210,9 +199,7 @@ public class glagerseygwt implements EntryPoint {
 		Button valider = new Button();
 		valider.setText("Valider l'évènement");
 		p1.add(valider,10,eve+175);
-
 		valider.addClickHandler(new ClickHandler() {
-
 			@SuppressWarnings("deprecation")
 			public void onClick(ClickEvent event) {
 				Date dat = dateVal.getValue(); 
@@ -221,19 +208,17 @@ public class glagerseygwt implements EntryPoint {
 				String da = annee+"-"+mois+"-"+dat.getDate();
 				String lie = lieuVal.getValue();
 				String heu = heureVal.getValue();
+
 				//EvenementItf ee = new Evenement(dat,lie,Integer.parseInt(heu));
 				//String serializedEvenement = EvenementJsonConverter.getInstance().serializeToJson(ee);
-
 				String serializedEvenement = 
 						"{\"date\": \""+da+"\",\"lieu\": \""+lie+"\",\"heure\": \""+heu+"\"}";
-
 				dateVal.setValue(null);
 				lieuVal.setText("");
 				heureVal.setText("");
 
 				RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
 						GWT.getHostPageBaseURL() + "rest/evenements/add");
-
 				builder.setHeader("Content-Type", "application/json");
 				builder.setRequestData(serializedEvenement);
 				builder.setCallback(new RequestCallback() {
@@ -257,16 +242,14 @@ public class glagerseygwt implements EntryPoint {
 		prev.setText("N'oubliez que vous pouvez toujours vous inscrire"
 				+ ", même s'il manque actuellement de places. "
 				+ "Quelqu'un va peut-être s'inscrire après vous !");
-
 		p2a.add(prev,10,30);
-
 
 		Button listE = new Button();
 		listE.setText("Voir la liste des évènements actuels :");
 		p2a.add(listE,10,5);
-
 		listE.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+
 				RequestBuilder test = new RequestBuilder(RequestBuilder.GET, GWT
 						.getHostPageBaseURL() + "rest/evenements/list/");
 				test.setCallback(new RequestCallback() {
@@ -284,12 +267,12 @@ public class glagerseygwt implements EntryPoint {
 							List<EvenementItf> lvv = lv.getEvenements();
 
 							for (int i = 1; i<lvv.size(); i++){
+
 								final EvenementItf v = lvv.get(i);
 
 								Label l = new Label();
 								l.setText("Evenement :" + v.getLieu());
 								p2.add(l,10,80+decal);
-
 
 								Button b = new Button();
 								b.setText("Voir");
@@ -297,25 +280,22 @@ public class glagerseygwt implements EntryPoint {
 
 								Label nb_pla = new Label();
 								int nbVal = v.getEtat_places();
+
 								if (nbVal<0){
 									nb_pla.setText("Actuellement, il manque : "+nbVal+ " places");
 								}
 								else{
 									nb_pla.setText("Actuellement, il reste : "+nbVal+ " places");
-
 								}
+
 								p2.add(nb_pla,185,80+decal);
 
 								decal += 50;
-
 								b.addClickHandler(new ClickHandler() {
-
 									@SuppressWarnings("deprecation")
 									public void onClick(ClickEvent arg0) {
 										p3.clear();
-
 										final String idEvenement = v.getIdEvenement()+"";
-
 										Label date = new Label();
 										Label lieu = new Label();
 										Label heure = new Label();
@@ -323,8 +303,6 @@ public class glagerseygwt implements EntryPoint {
 										int m = v.getDate().getMonth()+1 ;
 										int y = v.getDate().getYear()+1900;
 										date.setText("Date : "+d+"/"+m+"/"+y);
-
-
 										lieu.setText("Lieu : "+ v.getLieu());
 										heure.setText("Heure : "+ v.getHeure()+ " h");
 
@@ -338,7 +316,6 @@ public class glagerseygwt implements EntryPoint {
 										aj.setText("Je m'ajoute");
 										p3.add(aj,0,start+100);
 										aj.addClickHandler(new ClickHandler() {
-
 											public void onClick(ClickEvent event) {
 												Label id = new Label();
 												id.setText("Veuillez entrer votre ID (reçu lors de votre inscription)");
@@ -356,9 +333,7 @@ public class glagerseygwt implements EntryPoint {
 												Button chauff = new Button();
 												chauff.setText("Chauffeur cette fois !");
 												p3.add(chauff,0,onCli+100);
-
 												chauff.addClickHandler(new ClickHandler() {
-
 													public void onClick(ClickEvent event) {
 														String idPersonnee = idVal.getText();
 														RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
@@ -387,9 +362,7 @@ public class glagerseygwt implements EntryPoint {
 												Button pasChauff = new Button();
 												pasChauff.setText("Pas chauffeur cette fois !");
 												p3.add(pasChauff,200,onCli+100);
-
 												pasChauff.addClickHandler(new ClickHandler() {
-
 													public void onClick(ClickEvent event) {
 														String idPersonnee = idVal.getText();
 														RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, GWT
@@ -418,16 +391,12 @@ public class glagerseygwt implements EntryPoint {
 												Button aj = new Button();
 												aj.setText("Valider");
 												p3.add(aj,0,onCli+160);
-
 												aj.addClickHandler(new ClickHandler() {
-
 													public void onClick(ClickEvent event) {
-
 														String idPersonne = idVal.getText();
 
 														RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
 																GWT.getHostPageBaseURL() + "rest/evenements/addPersonneToEvenement/"+idPersonne+"/"+idEvenement);
-
 														builder.setCallback(new RequestCallback() {
 															public void onResponseReceived(Request request, Response response) {  
 																if (200 == response.getStatusCode()) { 
@@ -455,7 +424,6 @@ public class glagerseygwt implements EntryPoint {
 						}
 					}
 				});
-
 				try {
 					test.send();
 				} catch (RequestException e) {

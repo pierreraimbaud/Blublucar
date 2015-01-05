@@ -5,7 +5,6 @@ import java.util.Collection;
 import fr.istic.gla.shared.Evenement;
 import fr.istic.gla.shared.EvenementItf;
 
-
 public interface EvenementService {
 
 	public abstract Collection<Evenement> list();
@@ -16,6 +15,5 @@ public interface EvenementService {
 
 	public abstract EvenementItf addEvenement(Evenement e);
 
-	//public abstract EvenementItf addPersonneToEvenement(String arg0, String arg1);
-
+	public abstract EvenementItf addPersonneToEvenement(String arg0, String arg1);
 }

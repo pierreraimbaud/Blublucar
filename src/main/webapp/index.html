@@ -1,23 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" ng-app id="ng-app">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <head>
 <script src="bower_components/angular/angular.min.js"></script>
 
 <script type="text/javascript">
 	function MyCtrl($scope, $http) {
-		//$scope.idPersonne;
-		//$scope.idEvenement;
-		//$scope.date = 'Entrez la date';
-		//$scope.lieu = 'Entrez la ville';
-		//$scope.heure = 'Entre l\'heure';
-		//$scope.name = 'Entrez la name';
-		//$scope.firstname = 'Entrez la name';
-		//$scope.nb_places_dispos = 'Entre la nb_places_dispos';
 
 		$scope.cacher = function() {
 			document.getElementById('eve').style.display = 'none';
 		};
+
 		$scope.afficher = function() {
 			document.getElementById('eve').style.display = '';
 		};
@@ -140,35 +134,94 @@
 		};
 	}
 </script>
-
 </head>
+
 <body onload="cacher()">
-	<h1>Blablucar : site de covoiturage de Rennes 1 ISTIC</h1>
 
-	<div ng-controller="MyCtrl">
-		<button ng-click="addPersonne()">Je m'inscris</button>
-		<input type="text" name="input" ng-model="name"> </input> <input
-			type="text" name="input" ng-model="firstname"> </input> <input
-			type="text" name="input" ng-model="nb_places_dispos"> </input>
-	</div>
+	<h1>
+		<font color=brown">Blablucar : site de covoiturage de Rennes 1
+			ISTIC</font>
+	</h1>
 
+	<table>
+		<tr>
+			<td>
+				<div ng-controller="MyCtrl">
+					<h2>
+						<font color="green">Inscription sur le site</font>
+					</h2>
+					<h3>Prénom</h3>
+					<input type="text" name="input" ng-model="name"> </input>
+					<h3>Nom</h3>
+					<input type="text" name="input" ng-model="firstname"> </input>
+					<h3>Nombre de places (si propriétaire d'une voiture)</h3>
+					<input type="text" name="input" ng-model="nb_places_dispos">
+					</input>
+					<h2>
+						<button ng-click="addPersonne()">Je m'inscris</button>
+					</h2>
+				</div>
+			</td>
 
+			<td>
+				<div ng-controller="MyCtrl">
+					<h2>
+						<font color="green">Création d'un évènement</font>
+					</h2>
+					<h3>Date</h3>
 
-	<div ng-controller="MyCtrl">
-		<button id="test" style="display: yes;" ng-click="addEvenement()">Ajouter
-			un évènement</button>
-		<input type="date" name="input" ng-model="date"> </input> <input
-			type="text" name="input" ng-model="ville"> </input> <input
-			type="text" name="input" ng-model="heure"> </input>
-	</div>
+					<input type="date" name="input" ng-model="date"> </input>
 
+					<h3>Heure (format XX (00-23))</h3>
+					<input type="text" name="input" ng-model="heure"> </input>
 
+					<h3>Lieu</h3>
+					<input type="text" name="input" ng-model="ville"> </input>
+					<h2>
+						<button id="test" style="display: yes;" ng-click="addEvenement()">Ajouter
+							un évènement</button>
+					</h2>
+				</div>
+			</td>
+		</tr>
+	</table>
 
 	<div id="table_events" ng-app ng-controller="MyCtrl"
 		style="display: yes;">
-		<button ng-click="getAllEvenement()">Voir la liste des
-			évènements</button>
-		<button ng-controller="MyCtrl" ng-click="cacher()">Cacher</button>
+		<h2>
+			<font color="green">Evènements en cours</font>
+		</h2>
+
+		<div ng-controller="MyCtrl">
+			<h3>
+				<font color=grey>S'ajouter à un évènement</font>
+			</h3>
+			<h4>
+				Votre ID personnel : <input type="number" name="input"
+					ng-model="idPersonne"> </input>
+			</h4>
+			<h4>
+				Le numéro d'évènement <input type="number" name="input"
+					ng-model="idEvenement"> </input>
+			</h4>
+			<h4>
+				<button ng-click="chauff()">Envie de conduire !</button>
+				<button ng-click="nochauff()">Non, pas cette fois</button>
+			</h4>
+
+			<h2>
+				<button ng-click="addPersonneToEvenement()">Je m'ajoute à
+					l'évènement</button>
+			</h2>
+		</div>
+
+		<h3>
+			<font color=grey>Liste des évènements </font>
+		</h3>
+
+		<button ng-click="getAllEvenement()">Voir la liste</button>
+		<button ng-controller="MyCtrl" ng-click="cacher()">Cacher la
+			liste</button>
 
 		<div id="eve">
 			<div ng-repeat="eve in e" class='postBody'>
@@ -179,17 +232,7 @@
 				<p>Etat actuel : {{eve.etat_places}}</p>
 			</div>
 		</div>
+
 	</div>
-
-
-	<div ng-controller="MyCtrl">
-		<button ng-click="addPersonneToEvenement()">Je m'ajoute à
-			l'évènement</button>
-		<input type="number" name="input" ng-model="idPersonne"> </input> <input
-			type="number" name="input" ng-model="idEvenement"> </input>
-		<button ng-click="chauff()">Envie de conduire !</button>
-		<button ng-click="nochauff()">Non, pas cette fois</button>
-	</div>
-
 </body>
 </html>

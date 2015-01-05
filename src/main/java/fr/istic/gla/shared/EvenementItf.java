@@ -24,7 +24,7 @@ public interface EvenementItf{
 	public List<Personne> getLp();
 
 	public void setLp(List<Personne> lp);
-	
+
 	public int getEtat_places();
 
 	public void setEtat_places(int etat_places);

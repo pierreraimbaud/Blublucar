@@ -7,14 +7,11 @@ import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 import fr.istic.gla.shared.VoitureFactory;
 import fr.istic.gla.shared.VoitureItf;
 
-
 public class VoitureJsonConverter {
 
-	private VoitureJsonConverter() {
-	}
+	private VoitureJsonConverter() {}
 
 	private static VoitureJsonConverter instance = new VoitureJsonConverter();
-
 
 	// Instantiate the factory
 	VoitureFactory factory = GWT.create(VoitureFactory.class);

@@ -24,8 +24,6 @@ import fr.istic.gla.shared.Personne;
 @Path("/evenements")
 public class EvenementResource implements EvenementService {
 
-	//private List<Evenement> evenements = new ArrayList<Evenement>();
-
 	EntityManager manager;
 
 	public EvenementResource() {
@@ -69,6 +67,18 @@ public class EvenementResource implements EvenementService {
 	}
 
 	@POST
+	@Path("/add/")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public EvenementItf addEvenement(Evenement e) {
+		EntityTransaction t = manager.getTransaction();
+		t.begin();
+		manager.persist(e);
+		t.commit();
+		return e;
+	}
+
+	@POST
 	@Path("/addPersonneToEvenement/{idPersonne}/{idEvenement}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public EvenementItf addPersonneToEvenement(@PathParam("idPersonne") String arg0, @PathParam("idEvenement") String arg1) {
@@ -89,17 +99,5 @@ public class EvenementResource implements EvenementService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
 		return "Hello Jersey";
-	}
-
-	@POST
-	@Path("/add/")
-	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
-	public EvenementItf addEvenement(Evenement e) {
-		EntityTransaction t = manager.getTransaction();
-		t.begin();
-		manager.persist(e);
-		t.commit();
-		return e;
 	}
 }

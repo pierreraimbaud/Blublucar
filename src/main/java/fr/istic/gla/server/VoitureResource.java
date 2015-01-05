@@ -21,8 +21,6 @@ import fr.istic.gla.shared.VoitureItf;
 @Path("/voitures")
 public class VoitureResource implements VoitureService {
 
-	//private List<Voiture> voitures = new ArrayList<Voiture>();
-
 	EntityManager manager;
 
 	public VoitureResource() {

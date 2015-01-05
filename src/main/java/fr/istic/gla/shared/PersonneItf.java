@@ -13,11 +13,11 @@ public interface PersonneItf {
 	public String getFirstname();
 
 	public void setFirstname(String firstname);
-	
+
 	public int getNb_places_dispos();
-	
+
 	public void setNb_places_dispos(int nb_places_dispos);
-	
+
 	public boolean isChauff();
 
 	public void setChauff(boolean chauff);

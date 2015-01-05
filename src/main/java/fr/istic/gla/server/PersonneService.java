@@ -16,8 +16,7 @@ public interface PersonneService {
 
 	public abstract String add(Personne p);
 
-	//public abstract PersonneItf add(Personne p);
-	
-	//public abstract PersonneItf addPersonneVoiture (String arg0, String arg1);
+	public abstract PersonneItf noChauff(String arg0);
 
+	public abstract PersonneItf Chauff (String arg0);
 }

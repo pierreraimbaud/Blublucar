@@ -88,20 +88,4 @@ public class Evenement implements EvenementItf, Serializable {
 	public void setEtat_places(int etat_places) {
 		this.etat_places = etat_places;
 	}
-	
-	/*public void covoiturage(){
-		int nb_personnes= this.getLp().size();
-		int nb_places = 0;
-		for(int i = 0; i < nb_personnes; i++){
-			Personne p = this.getLp().get(i);
-
-			if (p.isVientAvecVoiture()){
-				//nb_places += p.getList_voitures().get(p.getVoitureCourante()).getNb_places_dispos();
-			}
-		}
-		if (nb_places< nb_personnes){
-			System.err.println("Il n'y a pas assez de places : " + nb_personnes +" personnes veulent venir et "
-					+ nb_places + " disponibles");
-		}
-	}*/
 }

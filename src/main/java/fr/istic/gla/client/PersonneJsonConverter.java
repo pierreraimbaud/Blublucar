@@ -9,8 +9,7 @@ import fr.istic.gla.shared.PersonneFactory;
 
 public class PersonneJsonConverter {
 
-	private PersonneJsonConverter() {
-	}
+	private PersonneJsonConverter() {}
 
 	private static PersonneJsonConverter instance = new PersonneJsonConverter();
 

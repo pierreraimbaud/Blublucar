@@ -13,14 +13,10 @@ import fr.istic.gla.shared.PersonneItf;
 @Path("/personnes")
 public class PersonneResource implements PersonneService{
 
-	//private List<Personne> personnes = new ArrayList<Personne>();
-
 	EntityManager manager;
 
 	public PersonneResource() {
-
 		manager = EntityManagerSingleton.getInstance().getManager();	
-
 	}
 
 	/* (non-Javadoc)

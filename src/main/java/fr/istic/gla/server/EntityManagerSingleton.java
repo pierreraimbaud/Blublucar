@@ -32,11 +32,14 @@ public class EntityManagerSingleton {
 				.createEntityManagerFactory("dev");
 		manager = factory.createEntityManager();
 		EntityTransaction t = manager.getTransaction();
+
 		t.begin();
+
 		for (int i = 0; i < 5; i++) {
 			VoitureItf v= new Voiture();
 			manager.persist(v);
 		}
+
 		for (int i = 0; i < 5; i++) {
 			EvenementItf e = new Evenement();
 			manager.persist(e);
@@ -45,9 +48,7 @@ public class EntityManagerSingleton {
 			PersonneItf p = new Personne();
 			manager.persist(p);
 		}
+
 		t.commit();		
-	}	
-/*	public <T> T merge(T entity) {
-		return manager.merge(entity);
-	}*/
+	}
 }

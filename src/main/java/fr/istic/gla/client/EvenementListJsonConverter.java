@@ -11,8 +11,7 @@ import fr.istic.gla.shared.EvenementListItf;
 
 public class EvenementListJsonConverter {
 
-	private EvenementListJsonConverter() {
-	}
+	private EvenementListJsonConverter() {}
 
 	private static EvenementListJsonConverter instance = new EvenementListJsonConverter();
 

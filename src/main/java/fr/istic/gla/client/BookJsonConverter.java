@@ -11,11 +11,9 @@ import fr.istic.gla.shared.Factory;
 
 public class BookJsonConverter {
 
-	private BookJsonConverter() {
-	}
+	private BookJsonConverter() {}
 
 	private static BookJsonConverter instance = new BookJsonConverter();
-
 
 	// Instantiate the factory
 	Factory factory = GWT.create(Factory.class);
@@ -24,7 +22,6 @@ public class BookJsonConverter {
 	public BookItf makeBook() {
 		// Construct the AutoBean
 		AutoBean<BookItf> book = factory.book();
-
 		// Return the Book interface shim
 		return book.as();
 	}

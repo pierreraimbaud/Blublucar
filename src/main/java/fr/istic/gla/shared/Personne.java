@@ -15,7 +15,6 @@ public class Personne implements PersonneItf, Serializable {
 	 */
 	private static final long serialVersionUID = 8925177444154877282L;
 
-
 	@Id
 	@GeneratedValue
 	private Integer idPersonne;
@@ -24,15 +23,12 @@ public class Personne implements PersonneItf, Serializable {
 	private int nb_places_dispos;
 	private boolean chauff;
 
-	/*@OneToOne
-	private Voiture voiture;*/
-
 	@JsonCreator
 	public Personne() {
 		this.name = "Michel";
 		this.firstname = "Martin";
 		this.nb_places_dispos = 0;
-		this.chauff = true;
+		this.chauff = false;
 	}
 
 	@JsonCreator 
@@ -77,12 +73,4 @@ public class Personne implements PersonneItf, Serializable {
 	public void setChauff(boolean chauff) {
 		this.chauff = chauff;
 	}
-
-	/*public void participe (Evenement e, boolean chauffeur, int num_voiture){
-		ArrayList <Personne> lp = e.getLp();
-		//Parametrage de la notion de chauffeur ou passager
-		this.setVientAvecVoiture(chauffeur);
-		lp.add(this);
-		e.setLp(lp);
-	}*/
 }

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
 public class Voiture implements VoitureItf, Serializable  {
@@ -15,6 +16,7 @@ public class Voiture implements VoitureItf, Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 2673606268605752636L;
+
 	@Id
 	@GeneratedValue
 	private Integer idVoiture;
@@ -25,7 +27,8 @@ public class Voiture implements VoitureItf, Serializable  {
 		nb_places_dispos = 3;
 	}
 
-	public Voiture(int nb, Personne prop){
+	@JsonCreator
+	public Voiture(@JsonProperty("nb_places_dispos") int nb){
 		nb_places_dispos = nb;
 	}
 
